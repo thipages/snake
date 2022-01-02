@@ -19,10 +19,12 @@ var food;
 
 var id;
 
+const width=(el)=>el.offsetWidth;
+const height=(el)=>el.offsetHeight;
 function init() {
-  ctx = $('#canvas')[0].getContext("2d");
-  WIDTH = $("#canvas").width();
-  HEIGHT = $("#canvas").height();
+  ctx = getCanvas().getContext("2d");
+  WIDTH =  width(getCanvas());
+  HEIGHT = height(getCanvas());
 
   createsnake();
   newfood();
@@ -34,23 +36,19 @@ function init() {
 }
 
 function onKeyDown(evt) {
-  if (evt.keyCode == 32) {
+  if (evt.keyCode === 32) {
     return;
   }
   newdir = evt.keyCode - 37;
 
   // only lateral turns are allowed
   // (that is, no u-turns)
-  if (newdir != direction && newdir != direction+2 && newdir != direction-2) {
+  if (newdir !== direction && newdir !== direction+2 && newdir !== direction-2) {
     direction = newdir;
   }
 }
 
-if ($.browser.mozilla) {
-    $(document).keypress(onKeyDown);
-} else {
-    $(document).keydown(onKeyDown);
-}
+document.addEventListener("keydown",onKeyDown);
 
 function createsnake() {
   snake = Array();
@@ -68,7 +66,7 @@ function collision(n) {
 
   // are we eating ourselves?
   for (var i = 0; i < snake.length; i++) {
-    if (snake[i].x == n.x && snake[i].y == n.y) {
+    if (snake[i].x === n.x && snake[i].y === n.y) {
       return true;
     }
   }
@@ -90,7 +88,7 @@ function newfood() {
 }
 
 function meal(n) {
-  return (n.x == food.x && n.y == food.y);
+  return (n.x === food.x && n.y === food.y);
 }
 
 function movesnake() {
@@ -128,7 +126,7 @@ function movesnake() {
   // if there's food there
   if (meal(n)) {
     newfood(); // we eat it and another shows up
-    
+
   } else {
     snake.pop();
     // we only remove the tail if there wasn't food

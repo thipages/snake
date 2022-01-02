@@ -1,11 +1,10 @@
 var gameStarted = false;
 
-$( document ).ready(function() {
+document.addEventListener("DOMContentLoaded",function() {
     showIntro();
-
     // Start game on spacebar press.
     this.onkeypress = function(e) {
-      if (gameStarted == false && e.keyCode == 32) { // 32 = Spacebar
+      if (gameStarted === false && e.keyCode === 32) { // 32 = Spacebar
         gameStarted = true;
         gamerun();
       }
@@ -47,11 +46,12 @@ function showIntro() {
 
     ctx.font="20px Arial";
     ctx.fillText("press space to start", canvas.width/2, canvas.height/2+40);
+    canvas.focus();
 }
-
+const getCanvas=()=>document.getElementById("canvas");
 function showConclusion(score) {
     screenclear();
-    var canvas = document.getElementById("canvas");
+    var canvas = getCanvas();//document.getElementById("canvas");
     var ctx=canvas.getContext("2d");
     ctx.font="30px Arial";
     ctx.fillStyle = "white";
